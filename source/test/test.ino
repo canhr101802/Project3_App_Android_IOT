@@ -1,16 +1,13 @@
-#include <FirebaseAdruino.h>
-#include <WiFi.h>
+#include <Firebase.h>
+#include <FirebaseArduino.h>
+#include <ESP8266WiFi.h>
 #include "DHT.h"
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 #include <string.h>
 //set wifi
-#define WIFI_SSID "Canh Lam_2.4G" // nhập tên wifi của bạn
-
-#define WIFI_PASSWORD "duclam2k" // mật khẩu của wifi
-
-//const char* namee = "OPPO A37fw";//name wifi connect
-//const char* pass = "12345678.";//password
+const char* namee = "OPPO A37fw";//name wifi connect
+const char* pass = "12345678.";//password
 String value;
 String value_light;
 float value_tem=23;
@@ -37,13 +34,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   delay(1000);
-  //connectWifi();
-  WiFi.begin (WIFI_SSID, WIFI_PASSWORD);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
+  connectWifi();
   timeClient.begin();
 
   //connect Firebase
@@ -64,7 +55,7 @@ void loop() {
 
   dht1();
   light();
-  //gas();
+  gas();
 
 
   delay(1000); 
@@ -83,44 +74,44 @@ String gettime(){
  return timeClient.getFormattedTime();
   }
   //cảm biến khí gas
-//void gas(){
-//    Serial.println(gas_value);
-////    Serial.println(analogRead(gas1));
-//    gas_value = digitalRead(gas2);
-//    if(startwith(Firebase.getString("user1/fire/fire1/auto"),"true")){
-//      Serial.println("gas auto");
-//      if(gas_value==0){
-//        Serial.println("Có gas");
-//        digitalWrite(led3, HIGH);
-//        if(startwith(Firebase.getString("user1/fire/fire1/status"),"0")){
-//        Firebase.setString("user1/fire/fire1/status","1+"+get_time);
-//        } 
-//      }
-//      else{
-//        Serial.println("Không có gas");
-//        digitalWrite(led3, LOW);
-//        if(startwith(Firebase.getString("user1/fire/fire1/status"),"1")){
-//        Firebase.setString("user1/fire/fire1/status","0+"+get_time);
-//        }
-//      }
-//    }
-//    if(startwith(Firebase.getString("user1/fire/fire1/auto"),"false")){
-//      digitalWrite(led1, LOW);
-//      Serial.println("gas không auto");
-//      if(gas_value==0){
-//        Serial.println("Có gas");
-//        if(startwith(Firebase.getString("user1/fire/fire1/status"),"0")){
-//        Firebase.setString("user1/fire/fire1/status","1+"+get_time);
-//        }
-//      }
-//      else{
-//        Serial.println("Không có gas");
-//        if(startwith(Firebase.getString("user1/fire/fire1/status"),"1")){
-//        Firebase.setString("user1/fire/fire1/status","0+"+get_time);
-//        }
-//      }
-//    }
-//}
+void gas(){
+    Serial.println(gas_value);
+//    Serial.println(analogRead(gas1));
+    gas_value = digitalRead(gas2);
+    if(startwith(Firebase.getString("user1/fire/fire1/auto"),"true")){
+      Serial.println("gas auto");
+      if(gas_value==0){
+        Serial.println("Có gas");
+        digitalWrite(led3, HIGH);
+        if(startwith(Firebase.getString("user1/fire/fire1/status"),"0")){
+        Firebase.setString("user1/fire/fire1/status","1+"+get_time);
+        } 
+      }
+      else{
+        Serial.println("Không có gas");
+        digitalWrite(led3, LOW);
+        if(startwith(Firebase.getString("user1/fire/fire1/status"),"1")){
+        Firebase.setString("user1/fire/fire1/status","0+"+get_time);
+        }
+      }
+    }
+    if(startwith(Firebase.getString("user1/fire/fire1/auto"),"false")){
+      digitalWrite(led1, LOW);
+      Serial.println("gas không auto");
+      if(gas_value==0){
+        Serial.println("Có gas");
+        if(startwith(Firebase.getString("user1/fire/fire1/status"),"0")){
+        Firebase.setString("user1/fire/fire1/status","1+"+get_time);
+        }
+      }
+      else{
+        Serial.println("Không có gas");
+        if(startwith(Firebase.getString("user1/fire/fire1/status"),"1")){
+        Firebase.setString("user1/fire/fire1/status","0+"+get_time);
+        }
+      }
+    }
+}
   //cảm biến nhiệt độ,độ ẩm
 void dht1(){
   float h = dht.readHumidity();    
@@ -229,12 +220,12 @@ void light(){
   }
 //hi
 //connect wifi
-//void connectWifi(){
-//  Serial.print("Kết nối wifi");
-//  WiFi.begin(namee,pass);
-//  while(WiFi.status() !=WL_CONNECTED){
-//    delay(500);
-//    Serial.print(".");
-//    }
-//    Serial.print("Kết nối thành công");
-//  }
+void connectWifi(){
+  Serial.print("Kết nối wifi");
+  WiFi.begin(namee,pass);
+  while(WiFi.status() !=WL_CONNECTED){
+    delay(500);
+    Serial.print(".");
+    }
+    Serial.print("Kết nối thành công");
+  }
