@@ -1,3 +1,3 @@
-# Project3_App_Android_IOT
+# Project_App_Android_IOT
 
-HỆ THỐNG IOT QUẢN LÝ  VÀ THU THẬP DỮ LIỆU CÁC THIẾT BỊ TRONG NHÀ
+HỆ THỐNG IOT QUẢN LÝ THIẾT BỊ TRONG NHÀ
